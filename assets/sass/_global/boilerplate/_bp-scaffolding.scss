@@ -1,0 +1,42 @@
+
+// boilerplate file for layout and scaffolding...
+// site-wide containers, grids, helpers etc.
+
+// ------ Auto element margins ------
+
+p {
+  & + p {
+    margin-top: 15px;
+  }
+}
+
+input, select {
+  & + input {
+    margin-top: 15px;
+  }
+
+  & + label {
+    margin-top: 15px;
+  }
+}
+
+// reset checkboxes and radios to sit right underneath each other...
+input[type="radio"], input[type="checkbox"] {
+  & + input[type="radio"], + input[type="checkbox"] {
+    margin-top: 0;
+  }
+}
+
+label {
+
+  display: block;
+
+  & + label {
+    margin-top: 15px;
+  }
+}
+
+legend {
+  font-size: 14px;
+  padding-bottom: 15px;
+}

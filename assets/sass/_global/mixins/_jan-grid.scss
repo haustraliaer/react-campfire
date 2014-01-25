@@ -1,0 +1,132 @@
+
+
+
+
+
+// grid variables
+
+$column-width: 48px;
+$gutter-width: 24px;
+
+
+// Function to calculate the width of an element
+
+@function calcwidth($cols) { 
+  @return ($cols * ($column-width + $gutter-width) - $gutter-width); 
+}
+
+// Mixin to include width in px and rem
+@mixin columns($cols:1) { 
+  width: calcwidth($cols); 
+}
+
+// Mixin for "rows", or anything spanning the entire width
+@mixin fullwidth($cols:8) { 
+  width: $cols * ($column-width + $gutter-width);
+}
+
+// Mixin for creating shift
+@mixin shift($cols:1) {
+  margin-left: $cols * ($column-width + $gutter-width) + $gutter-width;
+}
+
+
+// cols per breakpoint
+
+$starting-cols: 4;
+$mob-cols: 4;
+$portrait-cols: 8;
+$landscape-cols: 12;
+$wide-cols: 12;
+
+
+// container for columns (based on full-width value)
+
+.grid {
+  margin-left: -$gutter-width;
+}
+
+.grid-row {
+
+  @include clear();
+  display: block;
+  margin: 0 auto;
+
+  @include fullwidth($starting-cols);
+
+  @include breakpoint(mob) {
+    @include fullwidth($mob-cols);
+  }
+
+  @include breakpoint(portrait) {
+    @include fullwidth($portrait-cols);
+  }
+
+  @include breakpoint(landscape) {
+    @include fullwidth($landscape-cols);
+  }
+
+  @include breakpoint(wide) {
+    @include fullwidth($wide-cols);
+  }
+}
+
+
+// column placeholder
+
+.grid-column {
+
+  float: left;
+  display: block;
+  position: relative;
+
+  margin-left: $gutter-width;
+
+  max-width: calcwidth($starting-cols); 
+
+  @include breakpoint(mob) {
+    max-width: calcwidth($mob-cols); 
+  }
+
+  @include breakpoint(portrait) {
+    max-width: calcwidth($portrait-cols);
+  }
+
+  @include breakpoint(landscape) {
+    max-width: calcwidth($landscape-cols); 
+  }
+
+  @include breakpoint(wide) {
+    max-width: calcwidth($wide-cols); 
+  }
+}
+
+
+// **************************************** examples ****************************************** \\
+
+.grid-test {  
+  @extend .grid-row;
+  background-color: #c7d7d9;
+}
+
+.grid-test-item {
+
+  @extend .grid-column;
+  @include columns(1);
+
+  height: 100px;
+  background-color: #c9bdd9;
+  border: 1px solid #847c8f;
+  margin-bottom: 20px;
+
+  @include breakpoint(landscape) {
+    @include columns(2);
+    // width: (2 columns);
+    @include shift(2);
+    // margin-left: (2 columns);
+  }
+}
+
+
+
+

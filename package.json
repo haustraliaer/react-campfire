@@ -1,0 +1,36 @@
+{
+  "name": "msrdbp",
+  "description": "Measured Boilerplate",
+  "version": "0.0.0",
+  "homepage": "http://labs.measured.com.au",
+  "repository": "https://bitbucket.org/measured/_boilerplate/",
+  "author": {
+    "name": "Measured",
+    "url": "http://measured.com.au"
+  },
+  "contributors": [
+    {
+      "name": "David Hauser",
+      "url": "https://github.com/haustraliaer"
+    },
+    {
+      "name": "Ben Jennings",
+      "url": "https://benjennin.gs"
+    }
+  ],
+  "engines": {
+    "node": ">=0.8"
+  },
+  "dependencies": {
+    "assemble": "0.4.7",
+    "grunt": "0.4.1",
+    "grunt-contrib-clean": "0.5.0",
+    "grunt-contrib-watch": "0.5.3",
+    "grunt-contrib-compass": "0.5.0",
+    "grunt-contrib-concat": "0.3.0",
+    "grunt-contrib-copy": "0.4.1",
+    "grunt-react": "0.6.0",
+    "node-static": "0.7.1",
+    "open": "0.0.4"
+  }
+}
