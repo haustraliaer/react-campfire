@@ -4,8 +4,8 @@
 => firebase
 => assemble.io
 => sass (.scss)
-
 => grunt
+
 ## Simple Install Instructions
 
 $ **cd "project directory"**
