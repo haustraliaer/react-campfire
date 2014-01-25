@@ -1,12 +1,12 @@
 {
-  "name": "msrdbp",
-  "description": "Measured Boilerplate",
+  "name": "reactCampfire",
+  "description": "React and Firebase Experiments",
   "version": "0.0.0",
-  "homepage": "http://labs.measured.com.au",
-  "repository": "https://bitbucket.org/measured/_boilerplate/",
+  "homepage": "http://haustraliaer.com/",
+  "repository": "https://github.com/idealogue/react-campfire/",
   "author": {
-    "name": "Measured",
-    "url": "http://measured.com.au"
+    "name": "David Hauser",
+    "url": "http://haustraliaer.com/"
   },
   "contributors": [
     {
@@ -15,7 +15,7 @@
     },
     {
       "name": "Ben Jennings",
-      "url": "https://benjennin.gs"
+      "url": "https://github.com/jenbennings"
     }
   ],
   "engines": {

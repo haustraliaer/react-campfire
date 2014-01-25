@@ -1,11 +1,11 @@
-# Measured Boilerplate
+# React Campfire
 
-Static Html boilerplate running on Node.js
-
+=> react
+=> firebase
 => assemble.io
-=> handlebars template (.hbs)
-=> sasslang css (.scss)
+=> sass (.scss)
 
+=> grunt
 ## Simple Install Instructions
 
 $ **cd "project directory"**
