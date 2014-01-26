@@ -3,55 +3,28 @@
 
 // firebase setup
 
-var fb = new Firebase("https://react-campfire.firebaseio.com/");
-
-
+var dataRef = new Firebase("https://react-campfire.firebaseio.com/comments");
 
 // ---------------------------- comment box [loaded] ----------------------------- //
 
 var CommentBox = React.createClass({displayName: 'CommentBox',
 
-  loadCommentsFromServer: function() {
-    console.log('server has updated');
-    // $.ajax({
-    //   url: '/assets/data/comments.json',
-    //   dataType: 'json',
-    //   success: function(data) {
-    //     this.setState({data: data});
-    //   }.bind(this),
-    //   error: function(xhr, status, err) {
-    //     console.error("comments.json", status, err.toString());
-    //   }.bind(this)
-    // });
-
-    // get data from firebase
-  },
-
   handleCommentSubmit: function(comment) {
-    var comments = this.state.data;
-    var newComments = comments.concat([comment]);
-    this.setState({data: newComments});
-
-    // $.ajax({
-    //   url: this.props.url,
-    //   dataType: 'json',
-    //   type: 'POST',
-    //   data: comment,
-    //   success: function(data) {
-    //     this.setState({data: data});
-    //   }.bind(this)
-    // });
-
-    // send comment to firebase...
+    dataRef.push(comment);
   },
 
   getInitialState: function() {
-    return {data: []};
+    return {data: {}};
   },
 
   componentWillMount: function() {
-    this.loadCommentsFromServer();
-    fb.on("value", this.loadCommentsFromServer);
+    dataRef.on('child_added', function (newSnap, oldSnap) {
+      if(newSnap.val()) {
+        this.setState({
+          data: newSnap.val()
+        });
+      }
+    }, this);
   },
 
   render: function() {
@@ -71,15 +44,17 @@ var CommentBox = React.createClass({displayName: 'CommentBox',
 
 var CommentList = React.createClass({displayName: 'CommentList',
 
+  getInitialState: function() {
+    return {data: []};
+  },
+
   render: function() {
-    var commentNodes = this.props.data.map(function (comment) {
-      return Comment( {author:comment.author}, comment.text);
-    });
-    return (
-      React.DOM.div( {className:"commentList"}, 
-        commentNodes
-      )
-    );
+    var comment = this.props.data;
+    var index = this.state.data.length;
+    if(comment.author && comment.text) {
+        this.state.data.push(Comment( {key:index, author:comment.author}, comment.text));
+    }
+    return React.DOM.div( {className:"commentList"}, this.state.data);
   }
 
 });
@@ -107,7 +82,7 @@ var Comment = React.createClass({displayName: 'Comment',
 
 var CommentForm = React.createClass({displayName: 'CommentForm',
 
-  handleSubmit: function() {
+  handleSubmit: function(e) {
     var author = this.refs.author.getDOMNode().value.trim();
     var text = this.refs.text.getDOMNode().value.trim();
     
@@ -115,7 +90,7 @@ var CommentForm = React.createClass({displayName: 'CommentForm',
       return false;
     }
 
-    this.props.onCommentSubmit({author: author, text: text});
+    this.props.onCommentSubmit({author: author, text: text}); // onCommentSubmit(comment)
     // this.refs.author.getDOMNode().value = '';
     this.refs.text.getDOMNode().value = '';
     return false;
@@ -139,6 +114,6 @@ var CommentForm = React.createClass({displayName: 'CommentForm',
 // ---------------------------- render to DOM ----------------------------- //
 
 React.renderComponent(
-  CommentBox( {url:"/assets/data/comments.json", pollInterval:2000} ),
+  CommentBox(null ),
   document.getElementById('app')
 );
