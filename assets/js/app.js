@@ -1,11 +1,10 @@
 /** @jsx React.DOM */      
 
-// create components
 
-// - CommentBox
-//   - CommentList
-//     - Comment
-//   - CommentForm
+// firebase setup
+
+var fb = new Firebase("https://react-campfire.firebaseio.com/");
+
 
 
 // ---------------------------- comment box [loaded] ----------------------------- //
@@ -13,31 +12,37 @@
 var CommentBox = React.createClass({displayName: 'CommentBox',
 
   loadCommentsFromServer: function() {
-    $.ajax({
-      url: '/assets/data/comments.json',
-      dataType: 'json',
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error("comments.json", status, err.toString());
-      }.bind(this)
-    });
+    console.log('server has updated');
+    // $.ajax({
+    //   url: '/assets/data/comments.json',
+    //   dataType: 'json',
+    //   success: function(data) {
+    //     this.setState({data: data});
+    //   }.bind(this),
+    //   error: function(xhr, status, err) {
+    //     console.error("comments.json", status, err.toString());
+    //   }.bind(this)
+    // });
+
+    // get data from firebase
   },
 
   handleCommentSubmit: function(comment) {
     var comments = this.state.data;
     var newComments = comments.concat([comment]);
     this.setState({data: newComments});
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      type: 'POST',
-      data: comment,
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this)
-    });
+
+    // $.ajax({
+    //   url: this.props.url,
+    //   dataType: 'json',
+    //   type: 'POST',
+    //   data: comment,
+    //   success: function(data) {
+    //     this.setState({data: data});
+    //   }.bind(this)
+    // });
+
+    // send comment to firebase...
   },
 
   getInitialState: function() {
@@ -46,7 +51,7 @@ var CommentBox = React.createClass({displayName: 'CommentBox',
 
   componentWillMount: function() {
     this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+    fb.on("value", this.loadCommentsFromServer);
   },
 
   render: function() {
@@ -111,7 +116,7 @@ var CommentForm = React.createClass({displayName: 'CommentForm',
     }
 
     this.props.onCommentSubmit({author: author, text: text});
-    this.refs.author.getDOMNode().value = '';
+    // this.refs.author.getDOMNode().value = '';
     this.refs.text.getDOMNode().value = '';
     return false;
   },
@@ -119,7 +124,7 @@ var CommentForm = React.createClass({displayName: 'CommentForm',
   render: function() {
     return (
       React.DOM.form( {className:"commentForm", onSubmit:this.handleSubmit}, 
-        React.DOM.input( {type:"text", placeholder:"Your name", ref:"author"} ),
+        React.DOM.input( {type:"text", placeholder:"Your name", ref:"author", maxLength:"25"} ),
         React.DOM.input( {type:"text", placeholder:"Say something...", ref:"text"} ),
         React.DOM.input( {type:"submit", value:"Post"} )
       )
